@@ -1,5 +1,5 @@
 import { BadRequestException, Inject } from "@nestjs/common";
-import { TaskDto } from "src/core/task/dto/task-dto";
+import { TaskDto } from "src/core/task/dto/task.dto";
 import { Task } from "src/core/task/entity/task.entity";
 import { CreateTaskUseCase } from "src/core/task/usecase/task/create-task/create-task.usecase";
 

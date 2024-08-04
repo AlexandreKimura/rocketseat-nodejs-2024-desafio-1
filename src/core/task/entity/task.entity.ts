@@ -1,4 +1,4 @@
-import { TaskDto } from "../dto/task-dto";
+import { TaskDto } from "../dto/task.dto";
 
 export class Task {
   id?: string;

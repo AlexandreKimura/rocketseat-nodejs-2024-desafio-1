@@ -1,18 +1,18 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { ITaskGateway } from "src/application/operation/gateways/task/interfaces/Itask.gateway";
-import { TaskDto } from "src/core/task/dto/task.dto";
+import { GetTaskskDto } from "src/core/task/dto/get-tasts.dto";
 import { Task } from "src/core/task/entity/task.entity";
 
 @Injectable()
-export class CreateTaskUseCase {
+export class GetTasksUseCase {
   constructor(
     @Inject(ITaskGateway)
     private taskGateway: ITaskGateway,
   ) { }
 
-  async execute(payload: TaskDto): Promise<Task> {
+  async execute(payload: GetTaskskDto): Promise<Task[]> {
 
-    const taskCreated = await this.taskGateway.createTask(payload)
-    return taskCreated;
+    const tasks = await this.taskGateway.getTasks(payload)
+    return tasks;
   }
 }
