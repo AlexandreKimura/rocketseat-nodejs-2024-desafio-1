@@ -13,6 +13,8 @@ import { taskGateway } from "../operation/gateways/task/task.gateway";
 import { UpdateTaskUseCase } from "src/core/task/usecase/task/update-task/update-task.usecase";
 import { DeleteTaskUseCase } from "src/core/task/usecase/task/delete-task/delete-task.usecase";
 import { DeleteTaskController } from "../operation/controllers/task/delete-task/delete-task.controller";
+import { ChangeCompleteStatusTaskUseCase } from "src/core/task/usecase/task/change-complete-status-task/change-complete-status-task.usecase";
+import { ChangeCompleteStatusTaskController } from "../operation/controllers/task/change-complete-status-task/change-complete-status-task.controller";
 
 const persistenceProviders: Provider[] = [
   MongoDbService,
@@ -54,6 +56,12 @@ const useCaseProviders: Provider[] = [
     useFactory: (taskGateway: ITaskGateway) =>
       new DeleteTaskUseCase(taskGateway),
     inject: [ITaskGateway],
+  },
+  {
+    provide: ChangeCompleteStatusTaskUseCase,
+    useFactory: (taskGateway: ITaskGateway) =>
+      new ChangeCompleteStatusTaskUseCase(taskGateway),
+    inject: [ITaskGateway],
   }
 ];
 
@@ -81,6 +89,12 @@ const controllerProviders: Provider[] = [
     useFactory: (deleteTaskUseCase: DeleteTaskUseCase) =>
       new DeleteTaskController(deleteTaskUseCase),
     inject: [DeleteTaskUseCase],
+  },
+  {
+    provide: ChangeCompleteStatusTaskController,
+    useFactory: (changeCompleteStatusTaskUseCase: ChangeCompleteStatusTaskUseCase) =>
+      new ChangeCompleteStatusTaskController(changeCompleteStatusTaskUseCase),
+    inject: [ChangeCompleteStatusTaskUseCase],
   }
 ];
 

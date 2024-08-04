@@ -12,7 +12,9 @@ export class CreateTaskUseCase {
 
   async execute(payload: TaskDto): Promise<Task> {
 
-    const taskCreated = await this.taskGateway.createTask(payload)
+    const newTask = Task.new({ ...payload });
+
+    const taskCreated = await this.taskGateway.createTask(newTask)
     return taskCreated;
   }
 }

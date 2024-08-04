@@ -8,6 +8,7 @@ export interface ITaskRepository {
   getById(id: string): Promise<Task | undefined>
   update(id: string, payload: UpdateTaskDto): Promise<Task>
   delete(id: string): Promise<void>
+  changeStatus(id: string, completeStatus: boolean): Promise<Task>
 }
 
 export const ITaskRepository = Symbol('ITaskRepository');

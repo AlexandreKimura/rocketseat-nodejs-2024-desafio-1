@@ -35,6 +35,8 @@ export class TaskMongoDbRepository implements ITaskRepository {
     if (payload.description) update['description'] = payload.description;
     if (payload.title) update['title'] = payload.title;
 
+    update['updated_at'] = new Date()
+
     const task = await TaskModel.findByIdAndUpdate(id, update, { new: true });
 
     return task;
@@ -42,5 +44,16 @@ export class TaskMongoDbRepository implements ITaskRepository {
 
   async delete(id: string): Promise<void> {
     await TaskModel.findByIdAndDelete(id);
+  }
+
+  async changeStatus(id: string, completeStatus: boolean): Promise<Task> {
+
+    const update = {};
+
+    update['completed_status'] = !completeStatus
+    if (!completeStatus) update['completed_at'] = new Date()
+    update['updated_at'] = new Date()
+
+    return await TaskModel.findByIdAndUpdate(id, update, { new: true });
   }
 }
