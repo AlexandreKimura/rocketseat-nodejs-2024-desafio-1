@@ -1,7 +1,6 @@
 import { Module, Provider } from "@nestjs/common";
 import { CreateTaskUseCase } from "src/core/task/usecase/task/create-task/create-task.usecase";
 import { GetTasksUseCase } from "src/core/task/usecase/task/get-tasks/get-tasks.usecase";
-import { UpdateTaskUseCase } from "src/core/task/usecase/update-task/update-task.usecase";
 import { MongoDbService } from "src/infrastructure/mongodb/mongodb.service";
 import { ITaskRepository } from "src/infrastructure/repositories/interfaces/Itask.repository";
 import { TaskMongoDbRepository } from "src/infrastructure/repositories/task-mongodb.repository";
@@ -11,6 +10,9 @@ import { GetTasksController } from "../operation/controllers/task/get-tasks/get-
 import { UpdateTaskController } from "../operation/controllers/task/update-task/update-task.controller";
 import { ITaskGateway } from "../operation/gateways/task/interfaces/Itask.gateway";
 import { taskGateway } from "../operation/gateways/task/task.gateway";
+import { UpdateTaskUseCase } from "src/core/task/usecase/task/update-task/update-task.usecase";
+import { DeleteTaskUseCase } from "src/core/task/usecase/task/delete-task/delete-task.usecase";
+import { DeleteTaskController } from "../operation/controllers/task/delete-task/delete-task.controller";
 
 const persistenceProviders: Provider[] = [
   MongoDbService,
@@ -46,6 +48,12 @@ const useCaseProviders: Provider[] = [
     useFactory: (taskGateway: ITaskGateway) =>
       new UpdateTaskUseCase(taskGateway),
     inject: [ITaskGateway],
+  },
+  {
+    provide: DeleteTaskUseCase,
+    useFactory: (taskGateway: ITaskGateway) =>
+      new DeleteTaskUseCase(taskGateway),
+    inject: [ITaskGateway],
   }
 ];
 
@@ -67,6 +75,12 @@ const controllerProviders: Provider[] = [
     useFactory: (updateTaskUseCase: UpdateTaskUseCase) =>
       new UpdateTaskController(updateTaskUseCase),
     inject: [UpdateTaskUseCase],
+  },
+  {
+    provide: DeleteTaskController,
+    useFactory: (deleteTaskUseCase: DeleteTaskUseCase) =>
+      new DeleteTaskController(deleteTaskUseCase),
+    inject: [DeleteTaskUseCase],
   }
 ];
 

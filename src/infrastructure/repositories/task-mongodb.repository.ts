@@ -39,4 +39,8 @@ export class TaskMongoDbRepository implements ITaskRepository {
 
     return task;
   }
+
+  async delete(id: string): Promise<void> {
+    await TaskModel.findByIdAndDelete(id);
+  }
 }

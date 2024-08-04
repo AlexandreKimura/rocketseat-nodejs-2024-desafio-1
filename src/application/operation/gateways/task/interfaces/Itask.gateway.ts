@@ -7,6 +7,7 @@ export interface ITaskGateway {
   getTasks(payload: GetTaskskDto): Promise<Task[]>
   getTaskById(id: string): Promise<Task | undefined>
   updateTask(id: string, payload: UpdateTaskDto): Promise<Task>
+  deleteTask(id: string): Promise<void>
 }
 
 export const ITaskGateway = Symbol('ITaskGateway');

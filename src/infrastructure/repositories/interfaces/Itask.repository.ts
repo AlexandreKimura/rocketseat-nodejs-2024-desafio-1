@@ -7,6 +7,7 @@ export interface ITaskRepository {
   list(params: GetTaskskDto): Promise<Task[]>
   getById(id: string): Promise<Task | undefined>
   update(id: string, payload: UpdateTaskDto): Promise<Task>
+  delete(id: string): Promise<void>
 }
 
 export const ITaskRepository = Symbol('ITaskRepository');

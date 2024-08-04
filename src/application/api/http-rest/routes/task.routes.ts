@@ -1,6 +1,7 @@
-import { Body, Controller, Get, Inject, Param, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, Inject, Param, Post, Put, Query } from '@nestjs/common';
 
 import { CreateTaskController } from 'src/application/operation/controllers/task/create-task/create-task.controller';
+import { DeleteTaskController } from 'src/application/operation/controllers/task/delete-task/delete-task.controller';
 import { GetTasksController } from 'src/application/operation/controllers/task/get-tasks/get-tasks.controller';
 import { UpdateTaskController } from 'src/application/operation/controllers/task/update-task/update-task.controller';
 import { GetTaskskDto } from 'src/core/task/dto/get-tasts.dto';
@@ -20,6 +21,9 @@ export class TaskControllerRoute {
 
     @Inject(UpdateTaskController)
     private updateTaskController: UpdateTaskController,
+
+    @Inject(DeleteTaskController)
+    private deleteTaskController: DeleteTaskController,
   ) { }
 
   @Post('/')
@@ -38,5 +42,11 @@ export class TaskControllerRoute {
   async updateTask(@Param() params: { id: string }, @Body() payload: UpdateTaskDto): Promise<Task> {
     const task = await this.updateTaskController.handle(params.id, payload);
     return task;
+  }
+
+  @HttpCode(204)
+  @Delete('/:id')
+  async deleteTask(@Param() params: { id: string }): Promise<void> {
+    return await this.deleteTaskController.handle(params.id);
   }
 }

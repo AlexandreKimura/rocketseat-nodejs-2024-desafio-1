@@ -26,4 +26,8 @@ export class taskGateway implements ITaskGateway {
   async updateTask(id: string, payload: UpdateTaskDto): Promise<Task> {
     return await this.taskRepository.update(id, payload)
   }
+
+  async deleteTask(id: string): Promise<void> {
+    return await this.taskRepository.delete(id)
+  }
 }
