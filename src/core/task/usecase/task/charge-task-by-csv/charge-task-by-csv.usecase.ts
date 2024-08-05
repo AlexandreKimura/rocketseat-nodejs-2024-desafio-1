@@ -14,10 +14,8 @@ export class ChargeTaskByCsvUseCase {
     private streamCsvGateway: IStreamCsvGateway,
   ) { }
 
-  async execute(): Promise<void> {
-    const tasks: Task[] = []
-
-    const filePath = path.join(process.cwd(), 'task.csv');
+  async execute(filename: string): Promise<void> {
+    const filePath = path.join(process.cwd(), 'uploads', filename);
     const dataFromFile = await this.streamCsvGateway.read(filePath)
 
     for (const info of dataFromFile) {

@@ -7,7 +7,7 @@ export class ChargeTaskByCsvController {
     private chargeTaskByCsvUseCase: ChargeTaskByCsvUseCase,
   ) { }
 
-  async handle(): Promise<void> {
-    await this.chargeTaskByCsvUseCase.execute();
+  async handle(filename: string): Promise<void> {
+    await this.chargeTaskByCsvUseCase.execute(filename);
   }
 }

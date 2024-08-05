@@ -1,4 +1,5 @@
-import { Body, Controller, Delete, Get, HttpCode, Inject, Param, Patch, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, Inject, Param, Patch, Post, Put, Query, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { ChangeCompleteStatusTaskController } from 'src/application/operation/controllers/task/change-complete-status-task/change-complete-status-task.controller';
 import { ChargeTaskByCsvController } from 'src/application/operation/controllers/task/charge-task-by-csv/charge-task-by-csv.controller';
 
@@ -64,7 +65,8 @@ export class TaskControllerRoute {
   }
 
   @Post('/load')
-  async chargeTaskByCsv(): Promise<void> {
-    await this.chargeTaskByCsvController.handle();
+  @UseInterceptors(FileInterceptor('file'))
+  async chargeTaskByCsv(@UploadedFile() file: Express.Multer.File): Promise<void> {
+    await this.chargeTaskByCsvController.handle(file.filename);
   }
 }

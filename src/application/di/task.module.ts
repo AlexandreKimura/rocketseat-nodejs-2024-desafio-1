@@ -19,6 +19,7 @@ import { IStreamCsvGateway } from "../operation/gateways/stream-csv/interfaces/i
 import { StreamCsvGateway } from "../operation/gateways/stream-csv/stream-csv.gateway";
 import { ChargeTaskByCsvUseCase } from "src/core/task/usecase/task/charge-task-by-csv/charge-task-by-csv.usecase";
 import { ChargeTaskByCsvController } from "../operation/controllers/task/charge-task-by-csv/charge-task-by-csv.controller";
+import { MulterModule } from "@nestjs/platform-express";
 
 const persistenceProviders: Provider[] = [
   MongoDbService,
@@ -121,7 +122,11 @@ const controllerProviders: Provider[] = [
 ];
 
 @Module({
-  imports: [],
+  imports: [
+    MulterModule.register({
+      dest: './uploads',
+    }),
+  ],
   controllers: [TaskControllerRoute],
   providers: [
     ...persistenceProviders,
