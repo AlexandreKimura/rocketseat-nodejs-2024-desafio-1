@@ -1,5 +1,6 @@
 import { Body, Controller, Delete, Get, HttpCode, Inject, Param, Patch, Post, Put, Query } from '@nestjs/common';
 import { ChangeCompleteStatusTaskController } from 'src/application/operation/controllers/task/change-complete-status-task/change-complete-status-task.controller';
+import { ChargeTaskByCsvController } from 'src/application/operation/controllers/task/charge-task-by-csv/charge-task-by-csv.controller';
 
 import { CreateTaskController } from 'src/application/operation/controllers/task/create-task/create-task.controller';
 import { DeleteTaskController } from 'src/application/operation/controllers/task/delete-task/delete-task.controller';
@@ -28,6 +29,9 @@ export class TaskControllerRoute {
 
     @Inject(ChangeCompleteStatusTaskController)
     private changeCompleteStatusTaskController: ChangeCompleteStatusTaskController,
+
+    @Inject(ChargeTaskByCsvController)
+    private chargeTaskByCsvController: ChargeTaskByCsvController,
   ) { }
 
   @Post('/')
@@ -57,5 +61,10 @@ export class TaskControllerRoute {
   @Patch('/:id/complete')
   async changeCompleteStatusTask(@Param() params: { id: string }): Promise<Task> {
     return await this.changeCompleteStatusTaskController.handle(params.id);
+  }
+
+  @Post('/load')
+  async chargeTaskByCsv(): Promise<void> {
+    await this.chargeTaskByCsvController.handle();
   }
 }

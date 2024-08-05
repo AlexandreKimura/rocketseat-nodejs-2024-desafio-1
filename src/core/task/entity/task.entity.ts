@@ -20,7 +20,6 @@ export class Task {
 
   public static new(payload: TaskDto) {
     const task = new Task(payload);
-    console.log(task)
     return task;
   }
 }

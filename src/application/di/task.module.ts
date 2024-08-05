@@ -15,6 +15,10 @@ import { DeleteTaskUseCase } from "src/core/task/usecase/task/delete-task/delete
 import { DeleteTaskController } from "../operation/controllers/task/delete-task/delete-task.controller";
 import { ChangeCompleteStatusTaskUseCase } from "src/core/task/usecase/task/change-complete-status-task/change-complete-status-task.usecase";
 import { ChangeCompleteStatusTaskController } from "../operation/controllers/task/change-complete-status-task/change-complete-status-task.controller";
+import { IStreamCsvGateway } from "../operation/gateways/stream-csv/interfaces/istream-csv.gateway";
+import { StreamCsvGateway } from "../operation/gateways/stream-csv/stream-csv.gateway";
+import { ChargeTaskByCsvUseCase } from "src/core/task/usecase/task/charge-task-by-csv/charge-task-by-csv.usecase";
+import { ChargeTaskByCsvController } from "../operation/controllers/task/charge-task-by-csv/charge-task-by-csv.controller";
 
 const persistenceProviders: Provider[] = [
   MongoDbService,
@@ -28,6 +32,12 @@ const persistenceProviders: Provider[] = [
     provide: ITaskRepository,
     useFactory: () =>
       new TaskMongoDbRepository(),
+    inject: [],
+  },
+  {
+    provide: IStreamCsvGateway,
+    useFactory: () =>
+      new StreamCsvGateway(),
     inject: [],
   }
 ];
@@ -62,6 +72,12 @@ const useCaseProviders: Provider[] = [
     useFactory: (taskGateway: ITaskGateway) =>
       new ChangeCompleteStatusTaskUseCase(taskGateway),
     inject: [ITaskGateway],
+  },
+  {
+    provide: ChargeTaskByCsvUseCase,
+    useFactory: (taskGateway: ITaskGateway, streamCsvGateway: IStreamCsvGateway) =>
+      new ChargeTaskByCsvUseCase(taskGateway, streamCsvGateway),
+    inject: [ITaskGateway, IStreamCsvGateway],
   }
 ];
 
@@ -95,6 +111,12 @@ const controllerProviders: Provider[] = [
     useFactory: (changeCompleteStatusTaskUseCase: ChangeCompleteStatusTaskUseCase) =>
       new ChangeCompleteStatusTaskController(changeCompleteStatusTaskUseCase),
     inject: [ChangeCompleteStatusTaskUseCase],
+  },
+  {
+    provide: ChargeTaskByCsvController,
+    useFactory: (chargeTaskByCsvUseCase: ChargeTaskByCsvUseCase) =>
+      new ChargeTaskByCsvController(chargeTaskByCsvUseCase),
+    inject: [ChargeTaskByCsvUseCase],
   }
 ];
 
